@@ -94,6 +94,7 @@ Route::group(['middleware' => 'auth'], function () {
         
         Route::post("checkout/Payment", [PaymentController::class, "payment"])->name("checkout.payment.vnpay");
         Route::get("checkout/complete/{code}", [PaymentController::class, "complete"])->name("checkout.complete");
+        Route::get("checkout/history", [PaymentController::class, "history"])->name("checkout.history");
     
     });
 

@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
+    public function history(){
+        $payments = Payment_History::where('user_id',Auth::id())->orderBy('created_at', 'desc')->paginate(10);
+        return view('vnpay.history',compact('payments'),[
+            'title' => 'Lịch sử thanh toán'
+        ]);
+    }
     public function Payment(Request $request)
     {
         $checkout = new Payment_History();

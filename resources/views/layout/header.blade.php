@@ -125,6 +125,7 @@
                         @if(Auth::user()->role_id != 3)
                         <button type="button" class="btn dropdown-item d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#infoModal">Thông báo<span class="badge ml-2 badge-danger rounded-circle d-flex align-items-center justify-content-center" style="width:25px ;font-size:16px">{{$count_newAppliedCv}}</span></button>
                         <a class="dropdown-item" href="{{route('viewJobPage')}}">Công việc đã Đăng</a>
+                        <a class="dropdown-item" href="{{route('checkout.history')}}">Lịch sử nạp tiền</a>
                         @else
                         <a class="dropdown-item" href="{{route('CvApplied')}}">Công việc đã ứng tuyển</a>
                         <a class="dropdown-item" href="{{route('JobSaved')}}">Công việc đã lưu lại</a>
