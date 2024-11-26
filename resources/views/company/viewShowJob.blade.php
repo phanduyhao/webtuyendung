@@ -39,6 +39,7 @@
                                 <th>Vị trí</th>
                                 <th>Địa chỉ</th>
                                 <th>Thời gian làm việc</th>
+                                <th>Ẩn</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
@@ -53,6 +54,10 @@
                                     <td>{{ $job->position }}</td>
                                     <td>{{ $job->location ?? '' }}</td>
                                     <td>{{ $job->type }}</td>
+                                    <td>
+                                        <input type="checkbox" class="toggle-hide" data-id="{{ $job->id }}"
+                                               {{ $job->Hide ? 'checked' : '' }}>
+                                    </td>
                                     <td class="text-nowrap">
                                         <a href="{{ route('jobDetail', $job->slug) }}" type="button"
                                             class="btn btn-danger btnDeleteAsk px-2 me-2 py-1 fw-bolder"
@@ -194,6 +199,32 @@
                             alert(value[0]); // Hiển thị lỗi
                         });
                     }
+                });
+            });
+
+            $('.toggle-hide').on('change', function () {
+                let jobId = $(this).data('id');
+                let isChecked = $(this).is(':checked');
+
+                $.ajax({
+                    url: `/job/hide/${jobId}`,
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    data: JSON.stringify({ hide: isChecked }),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            alert(`Trạng thái ẩn: ${response.Hide ? 'Đã ẩn' : 'Hiện công khai'}`);
+                        } else {
+                            alert('Cập nhật trạng thái thất bại!');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Lỗi:', error);
+                        alert('Có lỗi xảy ra!');
+                    },
                 });
             });
         })

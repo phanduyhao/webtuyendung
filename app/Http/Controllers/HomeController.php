@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function index(){
-        $Jobs = Job::orderByDesc("created_at")->take(6)->get();
+        $Jobs = Job::Where('Hide','!=',true)->orWhereNull('Hide')->orderByDesc("created_at")->take(6)->get();
         $count_job = Job::count();
         $count_employee= User::where('role_id',3)->count();
         $company= Company::count();

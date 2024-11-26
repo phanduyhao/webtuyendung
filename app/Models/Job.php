@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Job extends Model
 {
     use HasFactory;
+    protected $table = "jobs";
     protected $fillable = [
         'title',
         'job_categories_id-select',
@@ -20,7 +21,8 @@ class Job extends Model
         'phone_number',
         'location-company',
         'thumb',
-        'thumb-company'
+        'thumb-company',
+        'Hide'
     ];
     public function User()
     {

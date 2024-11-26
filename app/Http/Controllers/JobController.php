@@ -19,8 +19,10 @@ class JobController extends Controller
     use ValidatesRequests;
     public function jobList(Request $request)
     {
-        $query = Job::query();
-    
+        $query = Job::where(function ($q) {
+            $q->where('Hide', '!=', true)
+              ->orWhereNull('Hide'); // Bao gồm cả trường hợp Hide = NULL
+        });    
         // Tìm kiếm theo tiêu đề công việc
         if ($request->filled('title')) {
             $query->where('title', 'LIKE', '%' . $request->title . '%');
@@ -100,7 +102,7 @@ class JobController extends Controller
         $hasApplyJob = Application::where('user_id', Auth::id())
             ->where('job_id', $job->id)
             ->first();
-        $job_referencts = Job::where('job_categories_id',$job->job_categories_id)->take(6)->get();
+        $job_referencts = Job::Where('Hide','!=',true)->orWhereNull('Hide')->where('job_categories_id',$job->job_categories_id)->take(6)->get();
         return view('job.jobDetail', compact('job', 'user', 'company', 'hasApplyJob', 'favourite','job_referencts'), [
             'title' => $job->title
         ]);

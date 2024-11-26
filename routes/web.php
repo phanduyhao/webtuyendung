@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             // Đơn đã ứng tuyển
             Route::get('/applications', [AdminApplicationController::class, 'index'])->name('applications.index');
+            Route::post('/job/hide/{id}', [CompanyController::class, 'toggleHide']);
 
             // Settings
             Route::resource('settings', SettingController::class);
@@ -81,6 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::middleware(['auth', 'company'])->group(function () {
         Route::get('/postJobPage', [CompanyController::class, 'postJobPage'])->name('postJobPage');
         Route::post('/postJob', [CompanyController::class, 'postJob'])->name('postJob');
+        Route::post('/job/hide/{id}', [CompanyController::class, 'toggleHide'])->name('job.toggleHide');
 
         Route::get('/viewJobPage', [CompanyController::class, 'viewJobPage'])->name('viewJobPage');
         Route::get('/viewJobPageEdit/{slug}', [CompanyController::class, 'viewJobPageEdit'])->name('viewJobPageEdit');

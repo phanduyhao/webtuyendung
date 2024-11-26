@@ -29,6 +29,17 @@ class CompanyController extends Controller
             'title' => 'Đăng tin tuyển dụng'
         ]);
     }
+
+    // Ẩn bài đăng
+    public function toggleHide(Request $request, $id)
+    {
+        $job = Job::findOrFail($id);
+        $job->Hide = !$job->Hide; // Đổi trạng thái của Hide
+        $job->save();
+
+        return response()->json(['status' => 'success', 'Hide' => $job->Hide]);
+    }
+
     //view 
     public function viewJobPage()
     {
@@ -160,7 +171,7 @@ class CompanyController extends Controller
         $job_categories = Job_Category::all();
     
         return view('company.EditJobPage', compact('Jobs', 'job_categories'), [
-            'title' => 'Công việc đã đăng'
+            'title' => $Jobs->title
         ]);
     }
     
